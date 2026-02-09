@@ -1,0 +1,19 @@
+.
+├── app
+│   ├── build
+│   ├── build.gradle.kts
+│   ├── proguard-rules.pro
+│   ├── sampledata
+│   └── src
+├── build.gradle.kts
+├── extructandroidstudio.txt
+├── gradle
+│   ├── libs.versions.toml
+│   └── wrapper
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── local.properties
+└── settings.gradle.kts
+
+7 directories, 10 files
