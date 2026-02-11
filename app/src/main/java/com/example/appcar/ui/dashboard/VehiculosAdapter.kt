@@ -9,18 +9,13 @@ import com.example.appcar.R
 import com.example.appcar.data.models.VehiculoDto
 
 class VehiculosAdapter(
-    private val items: MutableList<VehiculoDto> = mutableListOf()
+    private val items: List<VehiculoDto>,
+    private val onItemClick: (VehiculoDto) -> Unit
 ) : RecyclerView.Adapter<VehiculosAdapter.VH>() {
-
-    fun submitList(newItems: List<VehiculoDto>) {
-        items.clear()
-        items.addAll(newItems)
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_vehiculo, parent, false)
-        return VH(v)
+        return VH(v, onItemClick)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
@@ -29,13 +24,21 @@ class VehiculosAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class VH(
+        itemView: View,
+        private val onItemClick: (VehiculoDto) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+
         private val tvPlaca: TextView = itemView.findViewById(R.id.tvPlaca)
         private val tvDetalle: TextView = itemView.findViewById(R.id.tvDetalle)
 
         fun bind(v: VehiculoDto) {
-            tvPlaca.text = v.placa ?: "(sin placa)"
-            tvDetalle.text = listOfNotNull(v.marca, v.modelo).joinToString(" / ").ifBlank { "(sin detalle)" }
+            tvPlaca.text = "${v.marca ?: ""} ${v.modelo ?: ""}".trim().ifBlank { "(sin marca/modelo)" }
+            tvDetalle.text = "Año: ${v.anio ?: "-"} • Combustible: ${v.tipo_combustible ?: "-"}"
+
+            itemView.setOnClickListener {
+                onItemClick(v)
+            }
         }
     }
 }

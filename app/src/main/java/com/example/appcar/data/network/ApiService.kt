@@ -1,8 +1,11 @@
 package com.example.appcar.data.network
 
+import com.example.appcar.data.models.MantenimientoCreateRequest
+import com.example.appcar.data.models.MantenimientoDto
 import com.example.appcar.data.models.AccessTokenResponse
 import com.example.appcar.data.models.DashboardDto
 import com.example.appcar.data.models.LoginRequest
+import com.example.appcar.data.models.PaginatedResponse
 import com.example.appcar.data.models.RefreshRequest
 import com.example.appcar.data.models.TokenResponse
 import com.example.appcar.data.models.VehiculoDto
@@ -26,4 +29,9 @@ interface ApiService {
     // Ejemplo de endpoint protegido
     @GET("api/vehiculos/")
     suspend fun getVehiculos(): List<VehiculoDto>
+//    suspend fun getVehiculos(): PaginatedResponse<VehiculoDto>
+
+    @POST("api/mantenimientos/")
+    suspend fun crearMantenimiento(@Body body: MantenimientoCreateRequest): MantenimientoDto
+
 }

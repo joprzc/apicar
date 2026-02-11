@@ -26,7 +26,7 @@ class TokenStorage(private val context: Context) {
 //        saveTokens(token.access, token.refresh)
 
         val vehiculos = RetrofitClient.api.getVehiculos()
-        val vehiculo = vehiculos.firstOrNull() ?: return
+//        val vehiculo = vehiculos.firstOrNull() ?: return
 //        val dashboard = ApiClient.api.getDashboard(vehiculo.vehicle_code)
     }
 

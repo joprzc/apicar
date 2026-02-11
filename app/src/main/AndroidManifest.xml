@@ -14,37 +14,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Appcar">
 
+        <!-- ÚNICO LAUNCHER -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Appcar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".ui.dashboard.DashboardActivity" />-->
-
-<!--        <activity android:name=".ui.auth.LoginActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <!-- Activity normal, sin LAUNCHER -->
         <activity
             android:name=".ui.dashboard.DashboardActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.auth.LoginActivity"
-            android:exported="true">
-        </activity>
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false" />
+
+        <!-- AGREGA ESTA si estás navegando con Intent -->
+        <activity
+            android:name=".ui.maintenance.AgendarMantenimientoActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

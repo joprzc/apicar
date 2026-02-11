@@ -1,0 +1,67 @@
+TAREA: Análisis del proyecto (NO generar código)
+
+Contexto:
+Estoy trabajando en un proyecto Android Studio (Kotlin) que consume una API Django.
+Ya logramos que OkHttp/Retrofit devuelva 200 y que en Logcat aparezca vehiculos.size > 0.
+Sin embargo, en el emulador aún no se refleja correctamente lo que hicimos (UI en blanco o no se ve la lista / no navega como esperamos).
+
+Reglas IMPORTANTES (cumple estrictamente):
+1) NO generes código. NO propongas implementaciones nuevas.
+2) Trabaja únicamente con lo que ya existe en el proyecto.
+3) Tu salida debe ser solo un diagnóstico: qué falta, qué está mal conectado y en qué archivos.
+4) Sé preciso: nombra rutas/archivos exactos (por ejemplo: app/src/main/AndroidManifest.xml, .../DashboardActivity.kt, .../VehiculosAdapter.kt, layouts XML).
+5) No refactorices, no cambies arquitectura. Solo señala ajustes mínimos y dependencias faltantes.
+6) Si detectas editores duplicados o archivos “fantasma” o cambios accidentales, indícalo.
+
+Objetivo:
+Determinar por qué “no se refleja” en el emulador lo que ya está funcionando en red/Logcat.
+Identificar faltantes para que se muestre la lista de vehículos en pantalla y que el click abra la pantalla de agendar mantenimiento.
+
+Qué analizar (checklist):
+A) Launcher y navegación
+- ¿Cuál Activity está marcada como LAUNCHER en AndroidManifest.xml?
+- ¿Existe más de una activity con MAIN/LAUNCHER?
+- ¿MainActivity abre DashboardActivity o hay conflicto con Navigation template?
+- ¿DashboardActivity está registrada correctamente?
+- ¿AgendarMantenimientoActivity existe y está registrada?
+
+B) Layouts y RecyclerView
+- activity_dashboard.xml: ¿existe un RecyclerView con el id que usa el código (rvVehiculos)?
+- item_vehiculo.xml: ¿existen los ids usados en el adapter (tvPlaca, tvDetalle o similares)?
+- ¿DashboardActivity usa setContentView correcto?
+- ¿El adapter realmente se asigna a rv.adapter?
+
+C) Adapter y binding de datos
+- ¿VehiculosAdapter recibe una lista real y hace bind en onBindViewHolder?
+- ¿El bind pinta campos que existen en VehiculoDto? (marca/modelo/anio/tipo_combustible)
+- ¿Hay un error de nombres: “mantenimiento” vs “mantenimientos”?
+- ¿El click listener se ejecuta realmente? (Toast “Click: ...”)
+
+D) Red / Retrofit / Modelos
+- Verificar RetrofitClient BASE_URL = http://10.0.2.2:8000/
+- AndroidManifest: permiso INTERNET y cleartextTraffic (si usa http)
+- ApiService: endpoint /api/vehiculos/ correcto y tipo de retorno correcto
+- ¿La API DRF es paginada (results) o lista directa? ¿el parseo coincide?
+- VehiculoDto: ¿los nombres de campos coinciden con el JSON? (tipo_combustible, mantenimientos)
+
+E) Logs y errores silenciosos
+- Revisar Logcat por exceptions en DashboardActivity / Adapter (NPE, inflate errors).
+- Revisar si hay try/catch que oculta el error y deja pantalla en blanco.
+- Revisar warnings irrelevantes vs errores reales.
+
+Salida requerida (formato):
+1) Estado actual: resumen en 3-5 bullets de lo que sí funciona.
+2) Lista priorizada de causas probables de “no se refleja”, con evidencia (archivo + línea aproximada o nombre de clase).
+3) Para cada causa: qué archivo revisar y qué ajuste mínimo faltaría (sin escribir el código).
+4) Un plan de verificación: pasos para probar en emulador y qué se espera ver en cada paso.
+5) Lista de “cosas que NO tocar” para no romper lo existente.
+
+Notas:
+- La API devuelve objetos con: id, marca, modelo, anio, tipo_combustible, mantenimientos:[]
+- En Logcat ya se ve:
+  --> GET http://10.0.2.2:8000/api/vehiculos/
+  <-- 200 OK
+  vehiculos.size=3
+- Si encuentras cambios accidentales en archivos no relacionados (por ejemplo editores duplicados), repórtalos.
+
+Ahora realiza el análisis del proyecto completo según lo anterior (NO generar código).
